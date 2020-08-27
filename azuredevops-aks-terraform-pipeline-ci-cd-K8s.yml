@@ -20,11 +20,11 @@ stages:
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: '$(tag)'
-- stage: deployAKS
-  displayName: Deploy image to AKS
+- stage: getArtifacts
+  displayName: Get artifacts
   jobs:  
-  - job: deployAKS
-    displayName: Deploy image to AKS
+  - job: getManifests 
+    displayName: Get Manifests
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -45,3 +45,16 @@ stages:
         artifactName: 'manifests'
         itemPattern: '**/*.yaml'
         targetPath: '$(System.ArtifactsDirectory)'
+# - stage: deployAKS
+#   displayName: Deploy on AKS
+#   jobs:  
+#   - job: deployDeployment
+#     displayName: Deploy deployment
+#     pool:
+#       vmImage: 'ubuntu-latest'
+#     steps:
+#   - job: deployService
+#     displayName: Deploy service
+#     pool:
+#       vmImage: 'ubuntu-latest'
+#     steps:

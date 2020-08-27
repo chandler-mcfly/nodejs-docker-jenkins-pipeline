@@ -8,7 +8,7 @@ stages:
 - stage: buildandPush
   displayName: Build and Push image
   jobs:  
-  - job: Build
+  - job: buildandPush
     displayName: Build and Push image
     pool:
       vmImage: 'ubuntu-latest'
@@ -19,3 +19,18 @@ stages:
         repository: 'chandlermcfly/node'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
+        tags: '$(tag)'
+- stage: deployAKS
+  displayName: Deploy image to AKS
+  jobs:  
+  - job: deployAKS
+    displayName: Deploy image to AKS
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'current'
+        artifactName: 'manifests'
+        itemPattern: '**/*.yml'
+        targetPath: '$(System.ArtifactsDirectory)'

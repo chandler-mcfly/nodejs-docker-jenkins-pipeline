@@ -32,5 +32,5 @@ stages:
       inputs:
         buildType: 'current'
         artifactName: 'manifests'
-        itemPattern: '**/*.yml'
+        itemPattern: '**/manifests/*.yml'
         targetPath: '$(System.ArtifactsDirectory)'

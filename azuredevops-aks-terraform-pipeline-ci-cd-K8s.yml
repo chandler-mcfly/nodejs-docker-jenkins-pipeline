@@ -53,18 +53,19 @@ stages:
         artifactName: 'manifests'
         itemPattern: '**/*.yaml'
         targetPath: '$(System.ArtifactsDirectory)'
-    - task: KubernetesManifest@0
-      inputs:
-        action: 'deploy'
-        kubernetesServiceConnection: 'azure-kubernetes-connection'
-        manifests: |
-          $(System.ArtifactsDirectory)/manifests/node-deployment.yaml'
-          $(System.ArtifactsDirectory)/manifests/node-service.yaml'
-        containers: 'chandlermcfly/node:$(tag)'
-    - task: Kubernetes@1
-      inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: 'azure-kubernetes-connection'
-        command: 'get'
-        arguments: 'svc,po -o wide'
-        secretType: 'generic'
+    - bash: ls -R $(System.ArtifactsDirectory)
+    # - task: KubernetesManifest@0
+    #   inputs:
+    #     action: 'deploy'
+    #     kubernetesServiceConnection: 'azure-kubernetes-connection'
+    #     manifests: |
+    #       $(System.ArtifactsDirectory)/manifests/node-deployment.yaml'
+    #       $(System.ArtifactsDirectory)/manifests/node-service.yaml'
+    #     containers: 'chandlermcfly/node:$(tag)'
+    # - task: Kubernetes@1
+    #   inputs:
+    #     connectionType: 'Kubernetes Service Connection'
+    #     kubernetesServiceEndpoint: 'azure-kubernetes-connection'
+    #     command: 'get'
+    #     arguments: 'svc,po -o wide'
+    #     secretType: 'generic'

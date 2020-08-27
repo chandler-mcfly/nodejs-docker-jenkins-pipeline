@@ -6,5 +6,5 @@ steps:
   inputs:
     action: 'delete'
     kubernetesServiceConnection: 'azure-kubernetes-connection'
-    arguments: 'all -n default'
+    arguments: 'all --all'
 

@@ -66,10 +66,3 @@ stages:
         kubernetesServiceConnection: 'azure-kubernetes-connection'
         manifests: '$(System.ArtifactsDirectory)/manifests/node-service.yaml'
         containers: 'chandlermcfly/node:$(tag)'
-    - task: Kubernetes@1
-      inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: 'azure-kubernetes-connection'
-        command: 'get'
-        arguments: 'all'
-        secretType: 'generic'

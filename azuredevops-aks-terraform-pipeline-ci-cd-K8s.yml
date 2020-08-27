@@ -39,12 +39,6 @@ stages:
         targetPath: '$(Build.ArtifactStagingDirectory)'
         artifact: 'manifests'
         publishLocation: 'pipeline'
-    - task: DownloadPipelineArtifact@2
-      inputs:
-        buildType: 'current'
-        artifactName: 'manifests'
-        itemPattern: '**/*.yaml'
-        targetPath: '$(System.ArtifactsDirectory)'
 - stage: deployAKS
   displayName: Deploy on AKS
   jobs:
@@ -53,13 +47,19 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'current'
+        artifactName: 'manifests'
+        itemPattern: '**/*.yaml'
+        targetPath: '$(System.ArtifactsDirectory)'
     - task: KubernetesManifest@0
       inputs:
         action: 'deploy'
         kubernetesServiceConnection: 'azure-kubernetes-connection'
         manifests: |
-          $(System.ArtifactsDirectory)/manifest/node-deployment.yaml'
-          $(System.ArtifactsDirectory)/manifest/node-service.yaml'
+          $(System.ArtifactsDirectory)/manifests/node-deployment.yaml'
+          $(System.ArtifactsDirectory)/manifests/node-service.yaml'
         containers: 'chandlermcfly/node:$(tag)'
     - task: Kubernetes@1
       inputs:

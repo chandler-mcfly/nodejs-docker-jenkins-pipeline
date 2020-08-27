@@ -45,24 +45,26 @@ stages:
         artifactName: 'manifests'
         itemPattern: '**/*.yaml'
         targetPath: '$(System.ArtifactsDirectory)'
-# - stage: deployAKS
-#   displayName: Deploy on AKS
-#   jobs:  
-#   - job: deployDeployment
-#     displayName: Deploy deployment
-#     pool:
-#       vmImage: 'ubuntu-latest'
-#     steps:
-#   - job: deployService
-#     displayName: Deploy service
-#     pool:
-#       vmImage: 'ubuntu-latest'
-#     steps:
-#     - task: KubernetesManifest@0
-#       inputs:
-#         action: 'deploy'
-#         kubernetesServiceConnection: 'azure-kubernetes-connection'
-#         manifests: |
-#           $(System.ArtifactsDirectory)/manifest/node-deployment.yaml'
-#           $(System.ArtifactsDirectory)/manifest/node-service.yaml'
-#         containers: 'chandlermcfly/node:$(tag)'
+- stage: deployAKS
+  displayName: Deploy on AKS
+  jobs:
+  - job: deployService
+    displayName: Deploy service
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: KubernetesManifest@0
+      inputs:
+        action: 'deploy'
+        kubernetesServiceConnection: 'azure-kubernetes-connection'
+        manifests: |
+          $(System.ArtifactsDirectory)/manifest/node-deployment.yaml'
+          $(System.ArtifactsDirectory)/manifest/node-service.yaml'
+        containers: 'chandlermcfly/node:$(tag)'
+    - task: Kubernetes@1
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'azure-kubernetes-connection'
+        command: 'get'
+        arguments: 'svc,po -o wide'
+        secretType: 'generic'

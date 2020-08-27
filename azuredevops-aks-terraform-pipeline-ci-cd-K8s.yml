@@ -28,13 +28,14 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(System.ArtifactsDirectory)'
+        artifact: 'manifests'
+        publishLocation: 'pipeline'
     - task: DownloadPipelineArtifact@2
       inputs:
-        buildType: 'specific'
-        project: 'c302241c-40ab-4f58-ae6c-b736a11ea92c'
-        definition: '3'
-        specificBuildWithTriggering: true
-        buildVersionToDownload: 'latest'
+        buildType: 'current'
         artifactName: 'manifests'
-        itemPattern: 'manisfests/*.yml'
+        itemPattern: 'manifests/*.yaml'
         targetPath: '$(System.ArtifactsDirectory)'

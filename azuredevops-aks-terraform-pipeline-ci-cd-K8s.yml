@@ -30,7 +30,11 @@ stages:
     steps:
     - task: DownloadPipelineArtifact@2
       inputs:
-        buildType: 'current'
+        buildType: 'specific'
+        project: 'c302241c-40ab-4f58-ae6c-b736a11ea92c'
+        definition: '3'
+        specificBuildWithTriggering: true
+        buildVersionToDownload: 'latest'
         artifactName: 'manifests'
-        itemPattern: '**/manifests/*.yml'
+        itemPattern: 'manisfests/*.yml'
         targetPath: '$(System.ArtifactsDirectory)'

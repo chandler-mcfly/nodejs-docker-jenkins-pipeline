@@ -71,5 +71,5 @@ stages:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceEndpoint: 'azure-kubernetes-connection'
         command: 'get'
-        arguments: 'svc, po'
+        arguments: 'all'
         secretType: 'generic'

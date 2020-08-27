@@ -9,7 +9,7 @@ const HOST = '0.0.0.0';
 // App
 const app = express();
 app.get('/', (req, res) => {
-  res.send('Dear Rahul "SRK" Saha, Your Jenkins Pipeline ran successfully!');
+  res.send('Dear Rahul "SRK" Saha, Your Azure CI/CD DevOps Pipeline with AKS Terraform ran successfully!');
 });
 
 app.listen(PORT, HOST);

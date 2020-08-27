@@ -28,9 +28,15 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(System.DefaultWorkingDirectory)'
+        Contents: '**/*.yaml'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+        OverWrite: true
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(System.ArtifactsDirectory)'
+        targetPath: '$(Build.ArtifactStagingDirectory)'
         artifact: 'manifests'
         publishLocation: 'pipeline'
     - task: DownloadPipelineArtifact@2
